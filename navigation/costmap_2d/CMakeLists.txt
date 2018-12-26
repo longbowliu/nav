@@ -119,12 +119,14 @@ target_link_libraries(layers
 add_executable(costmap_2d_markers src/costmap_2d_markers.cpp)
 add_dependencies(costmap_2d_markers ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(costmap_2d_markers
+    ${catkin_LIBRARIES}
     costmap_2d
     )
 
 add_executable(costmap_2d_cloud src/costmap_2d_cloud.cpp)
 add_dependencies(costmap_2d_cloud ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(costmap_2d_cloud
+    ${catkin_LIBRARIES}
     costmap_2d
     )
 
