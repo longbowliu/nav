@@ -104,8 +104,8 @@ angle_diff(double a, double b)
   else
     return(d2);
 }
-
-static const std::string scan_topic_ = "scan";
+//*************SO IMPORTENT***************
+static const std::string scan_topic_ = "/scan";
 
 class AmclNode
 {
@@ -325,7 +325,6 @@ AmclNode::AmclNode() :
         first_reconfigure_call_(true)
 {
   boost::recursive_mutex::scoped_lock l(configuration_mutex_);
-
   // Grab params off the param server
   private_nh_.param("use_map_topic", use_map_topic_, false);
   private_nh_.param("first_map_only", first_map_only_, false);
@@ -426,12 +425,12 @@ AmclNode::AmclNode() :
                                          this);
   nomotion_update_srv_= nh_.advertiseService("request_nomotion_update", &AmclNode::nomotionUpdateCallback, this);
   set_map_srv_= nh_.advertiseService("set_map", &AmclNode::setMapCallback, this);
-
+  ROS_WARN("***************** LONGBOW %s, %s , %s",odom_frame_id_.c_str(),base_frame_id_.c_str(),scan_topic_.c_str());
   laser_scan_sub_ = new message_filters::Subscriber<sensor_msgs::LaserScan>(nh_, scan_topic_, 100);
   laser_scan_filter_ = 
           new tf::MessageFilter<sensor_msgs::LaserScan>(*laser_scan_sub_, 
                                                         *tf_, 
-                                                        odom_frame_id_, 
+														odom_frame_id_,
                                                         100);
   laser_scan_filter_->registerCallback(boost::bind(&AmclNode::laserReceived,
                                                    this, _1));
@@ -1044,6 +1043,7 @@ void
 AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
 {
   last_laser_received_ts_ = ros::Time::now();
+  ROS_WARN("********888888888**********");
   if( map_ == NULL ) {
     return;
   }
@@ -1068,7 +1068,7 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
     }
     catch(tf::TransformException& e)
     {
-      ROS_ERROR("Couldn't transform from %s to %s, "
+      ROS_ERROR("LONGBOW : Couldn't transform from %s to %s, "
                 "even though the message notifier is in use",
                 laser_scan->header.frame_id.c_str(),
                 base_frame_id_.c_str());
