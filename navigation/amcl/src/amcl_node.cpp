@@ -1043,7 +1043,7 @@ void
 AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
 {
   last_laser_received_ts_ = ros::Time::now();
-  ROS_WARN("********888888888**********");
+  //ROS_WARN("********888888888**********");
   if( map_ == NULL ) {
     return;
   }
