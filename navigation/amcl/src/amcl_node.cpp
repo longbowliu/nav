@@ -105,7 +105,7 @@ angle_diff(double a, double b)
     return(d2);
 }
 //*************SO IMPORTENT***************
-static const std::string scan_topic_ = "/scan";
+static const std::string scan_topic_ = "scan";
 
 class AmclNode
 {
